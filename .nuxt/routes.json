@@ -1,5 +1,12 @@
 [
   {
+    "name": "home-id",
+    "path": "/home/:id?",
+    "component": "/var/www/NuxtLodging/pages/home/_id.vue",
+    "chunkName": "pages/home/_id",
+    "_name": "_4046bbbc"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "/var/www/NuxtLodging/pages/index.vue",
