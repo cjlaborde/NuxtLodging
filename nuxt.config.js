@@ -19,5 +19,8 @@ export default {
     },
     router: {
         prefetchLinks: false,
+    },
+    env: {
+        GMAP: process.env.GMAP
     }
 }
