@@ -17,16 +17,23 @@
 
 <script>
 import homes from '~/data/homes';
+
 export default {
     head() {
         return {
             title: this.home.title,
             script: [{
-                src:`https://maps.googleapis.com/maps/api/js?key=${process.env.GMAP}&libraries=places`,
-                hid: "map"
+                src:`https://maps.googleapis.com/maps/api/js?key=${process.env.GMAP}&libraries=places&callback=initMap`,
+                hid: "map",
                 // defer guarantee to execute in order they appear
-                ,defer: true
-            }]
+                defer: true,
+                // this will skip adding this page on a page change.
+                skip: process.client && window.mapLoaded
+            }, {
+                // know when google map is loaded
+                innerHTML: "window.initMap = function() { window.mapLoaded = true }",
+                hid: "map-init",
+            }],
         }
     },
     data() {
