@@ -26,11 +26,11 @@ export default {
                 src:`https://maps.googleapis.com/maps/api/js?key=${process.env.GMAP}&libraries=places&callback=initMap`,
                 hid: "map",
                 // defer guarantee to execute in order they appear
-                defer: true,
+                async: true,
                 // this will skip adding this page on a page change.
                 skip: process.client && window.mapLoaded
             }, {
-                // know when google map is loaded
+                //  know when google map is loaded
                 innerHTML: "window.initMap = function() { window.mapLoaded = true }",
                 hid: "map-init",
             }],
@@ -38,10 +38,13 @@ export default {
     },
     data() {
         return  {
-            home: {}
+            home: {
+                
+            }
         }
     },
-    mounted() {
+    methods: {
+        showMap() {
         const mapOptions = {
             zoom: 18,
             center: new window.google.maps.LatLng(this.home._geoloc.lat, this.home._geoloc.lng),
@@ -54,6 +57,16 @@ export default {
         const position = new window.google.maps.LatLng(this.home._geoloc.lat, this.home._geoloc.lng);
         const marker = new window.google.maps.Marker({ position });
         marker.setMap(map);
+        }
+    },
+    mounted() {
+        const timer = setInterval(() => {
+            //  console.log('mounted');
+            if (window.mapLoaded) {
+                clearInterval(timer)
+                this.showMap();
+            }
+        }, 200)
     },
     created() {
         const home = homes.find((home) => home.objectID == this.$route.params.id);
