@@ -20,8 +20,13 @@ export default {
     router: {
         prefetchLinks: false,
     },
-    plugins: ['~/plugins/maps.client'],
+    plugins: [
+        '~/plugins/maps.client',
+        '~/plugins/dataApi'
+    ],
     env: {
-        GMAP: process.env.GMAP
+        GMAP: process.env.GMAP,
+        AlgoliaAppID: process.env.AlgoliaAppID,
+        SearchOnlyApiKey: process.env.SearchOnlyApiKey
     }
 }

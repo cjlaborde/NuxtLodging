@@ -200,7 +200,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: app.router.options.base,
-      env: {"GMAP":"AIzaSyDFF39EQRIqHQ8oeuFACsKzzJGm377iUws"}
+      env: {"GMAP":"AIzaSyDFF39EQRIqHQ8oeuFACsKzzJGm377iUws","AlgoliaAppID":"L1S7SR45T5","SearchOnlyApiKey":"a10bf3822d8275b31ff13ffbde14c6f6"}
     }
     // Only set once
 
