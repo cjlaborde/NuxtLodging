@@ -20,6 +20,7 @@ export default {
     router: {
         prefetchLinks: false,
     },
+    plugins: ['~/plugins/maps.client'],
     env: {
         GMAP: process.env.GMAP
     }
