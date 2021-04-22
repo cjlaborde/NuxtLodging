@@ -43,20 +43,22 @@ export default {
         // we use map instead of google maps so that in the future we may switch to something else and only need to change code inside the plugin
         this.$maps.showMap(this.$refs.map, this.home._geoloc.lat, this.home._geoloc.lng)
     },
-    async created() {
+
+    async asyncData({ params, $dataApi, error}) {
+        const response = await $dataApi.getHome(params.id);
+        if (!response.ok) return error({ statusCode: response.status, message: response.statusText })
+        return {
+            home: response.json
+        }
+    }
+    // async created() {
         // const home = homes.find((home) => home.objectID == this.$route.params.id);
         // console.log(this.$route);
         // const home = await this.$dataApi.getHome(this.$route.params.id);
         // // console.log(process.env.AlgoliaAppID);
         // this.home = home;
 
-    },
-    async asyncData({ params, $dataApi}) {
-         const home = await $dataApi.getHome(params.id);
-        return {
-            home
-        }
-
-    }
+    // },
+ 
 }
 </script>
