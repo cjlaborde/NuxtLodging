@@ -8,7 +8,8 @@ export default function(context, inject) {
 
     // use inject to expose our getHome method
     inject('dataApi', {
-        getHome
+        getHome,
+        getReviewsByHomeId,
     })
 
     async function getHome(homeId) {
@@ -16,6 +17,22 @@ export default function(context, inject) {
             // https://www.algolia.com/doc/rest-api/search/#get-objects
             // https://${APPLICATION_ID}-dsn.algolia.net/1/indexes/*/objects
             return unWrap(await fetch(`https://${appId}-dsn.algolia.net/1/indexes/homes/${homeId}`, { headers }));
+        } catch(error) {
+            return getErrorResponse(error)
+        }
+    }
+
+    async function getReviewsByHomeId(homeId) {
+        try {
+            // https://www.algolia.com/doc/rest-api/search/#search-index-post
+            // Path: /1/indexes/{indexName}/query
+            return unWrap(await fetch(`https://${appId}-dsn.algolia.net/1/indexes/reviews/query`, {
+                headers,
+                method: 'POST',
+                body: JSON.stringify({
+                    filters: `homeId:${homeId}`,
+                })
+            }))
         } catch(error) {
             return getErrorResponse(error)
         }
