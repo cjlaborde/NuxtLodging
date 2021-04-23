@@ -8,13 +8,13 @@
     <img src="/images/marker.svg" width="20" height="20"/>{{ home.location.address }} {{ home.location.city }} {{ home.location.state }} {{home.location.country }} <br>
     <img src="/images/star.svg" width="20" height="20"/>{{ home.reviewValue }} <br>
     {{ home.guests }} guests, {{ home.bedrooms }} rooms, {{ home.beds }} beds, {{ home.bathrooms }} bath <br>
-    {{ home.description }}
+    {{ home.description }} 
     <div style="height:800px;width:800px" ref="map"></div>
     <div v-for="review in reviews" :key="review.objectID">
         <img :src="review.reviewer.image"/><br/>
         {{ review.reviewer.name }}<br/>
-        {{ review.date }}<br/>
-        {{ review.comment }}<br/>
+        {{ formatDate(review.date) }}<br/>
+        <ShortText :text="review.comment" :target="150" /> <br>
     </div>
 </div>
 </template>
@@ -28,20 +28,12 @@ export default {
         }
     },
     methods: {
-        showMap() {
-        const mapOptions = {
-            zoom: 18,
-            center: new window.google.maps.LatLng(this.home._geoloc.lat, this.home._geoloc.lng),
-            // turns off all default controls
-            disableDefaultUI: true,
-            zoomControl: true
-        }
-        // map object takes 2 parameter 1) where map will be drawn and map options
-        const map = new window.google.maps.Map(this.$refs.map, mapOptions);
-        const position = new window.google.maps.LatLng(this.home._geoloc.lat, this.home._geoloc.lng);
-        const marker = new window.google.maps.Marker({ position });
-        marker.setMap(map);
-        }
+      formatDate(dateStr) {
+          const date = new Date(dateStr)
+          // undefined is location it could be 'us-EN'
+          // second parameter is date options
+          return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })
+      }
     },
     mounted() {
         // we use map instead of google maps so that in the future we may switch to something else and only need to change code inside the plugin

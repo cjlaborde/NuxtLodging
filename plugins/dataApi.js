@@ -31,6 +31,9 @@ export default function(context, inject) {
                 method: 'POST',
                 body: JSON.stringify({
                     filters: `homeId:${homeId}`,
+                    // we only want 2 results per page
+                    hitsPerPage: 6,
+                    attributesToHighlight: []
                 })
             }))
         } catch(error) {
@@ -58,5 +61,4 @@ export default function(context, inject) {
             json: {}
         }
     }
-
 }  
