@@ -1,7 +1,7 @@
 // inject a object or value into your app that is available through vue and vuex
 export default function(context, inject) {
-    let mapLoaded = false
-    let mapWaiting = null
+    let isLoaded = false;
+     let waiting = [];
 
     addScript()
     // $maps will be available throughout your app
@@ -9,47 +9,53 @@ export default function(context, inject) {
     // it will return an object that contains our show method
     inject('maps', {
         showMap
-    })
+    });
 
 
 
     function addScript() {
         // creates our script tag and attach it to our Document
-        const script = document.createElement('script')
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GMAP}&libraries=places&callback=initMap`
-        script.async = true 
-        window.initMap = initMap
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GMAP}&libraries=places&callback=initGoogleMaps`;
+        script.async = true;
+        window.initGoogleMaps = initGoogleMaps;
         // append element to the head
-        document.head.appendChild(script)
+        document.head.appendChild(script);
     }
 
-    function initMap() {
+    function initGoogleMaps() {
         // if map waiting run render map
-        mapLoaded = true
-        if(mapWaiting) {
-            const { canvas, lat, lng } = mapWaiting
-            renderMap(canvas, lat, lng)
-            mapWaiting = null
-        }
-    }
-
-    function showMap(canvas, lat, lng)
-    {
-        if (mapLoaded) renderMap(canvas, lat, lng)
-        // this will be place, we store call in showMap till google maps is ready
-        else mapWaiting = { canvas, lat, lng }
-
+        isLoaded = true
+        // since waiting is an array lets use for each method
+        waiting.forEach((item) => {
+            if (typeof item.fn === 'function') {
+                item.fn(...item.arguments)
+            }
+        })
+        // now that our queue is all ran lets clear the queue
+        waiting = []
     }
 
     // now that is inside plugins we not longer have access to our home and map object
     // so we need to add parameters canvas, lat, lng
-    function renderMap(canvas, lat, lng ) {
+    function showMap(canvas, lat, lng) {
+        if (!isLoaded) {
+            // we will call reference to current function so we can call it later
+            waiting.push({
+                // fn = function
+                fn: showMap,
+                arguments
+            })
+             // we don't want to do anything else if map is not loaded
+            return
+        }
+
         const mapOptions = {
             zoom: 18,
             center: new window.google.maps.LatLng(lat, lng),
             // turns off all default controls
             disableDefaultUI: true,
-            zoomControl: true
+            zoomControl: true,
         }
         // map object takes 2 parameter 1) where map will be drawn and map options
         // canvas replaces -----> this.$refs.map 
