@@ -53,7 +53,7 @@ export default {
         ])
 
         const badResponse = responses.find((response) => !response.ok)
-         if (!badResponse.ok) return error({ statusCode: badResponse.status, message: badResponse.statusText })
+        if(badResponse) return error({ statusCode: badResponse.status, message: badResponse.statusText})
 
         return {
             home: responses[0].json,
