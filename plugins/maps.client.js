@@ -100,7 +100,16 @@ export default function(context, inject) {
         const bounds = new window.google.maps.LatLngBounds()
         markers.forEach((home) => {
             const position = new window.google.maps.LatLng(home.lat, home.lng);
-            const marker = new window.google.maps.Marker({ position });
+            const marker = new window.google.maps.Marker({ 
+                position,
+                label: {
+                    // if you just pass a number it will throw error since it gmaps api is  expecting a string
+                    text: `$${home.pricePerNight}`,
+                    // add css style class
+                    className: 'marker'
+                },
+                icon: 'https://maps.gstatic.com/mapfiles/transparent.png',
+            });
             marker.setMap(map);
             // pass the position of the market so the bound can grow
             marker.setMap(map);

@@ -30,6 +30,8 @@ export default {
                 return {
                     // create spread of geoloc to get all lat and lng properties
                     ...home._geoloc,
+                    // add price to marker
+                    pricePerNight: home.pricePerNight
 
                 }
             })
@@ -58,3 +60,13 @@ export default {
     }
 }
 </script>
+
+<style>
+.marker {
+    background-color: white;
+    border: 1px solid lightgray;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 5px 8px;
+}
+</style>
