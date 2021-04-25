@@ -8,8 +8,16 @@
 <script>
 export default {
     // https://nuxtjs.org/docs/2.x/components-glossary/pages-watchquery/
-    watchQuery: ['lat'],
-    // destruct query from context
+    // watchQuery: ['lat'],
+    // destruct query from context'
+    async beforeRouteUpdate(to, from, next) {
+        const data = await this.$dataApi.getHomeByLocationId(to.query.lat, to.query.lng);
+        this.homes = data.json.hits;
+        this.label = to.query.label;
+        this.lat = to.query.lat;
+        this.lng = to.query.lng;
+        next()
+    },
     async asyncData({ query, $dataApi }) {
         const data = await $dataApi.getHomeByLocationId(query.lat, query.lng)
         return {
