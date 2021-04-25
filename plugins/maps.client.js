@@ -63,7 +63,8 @@ export default function(context, inject) {
 
     // now that is inside plugins we not longer have access to our home and map object
     // so we need to add parameters canvas, lat, lng
-    function showMap(canvas, lat, lng) {
+    // The idea is that when we create our map and we don't have any custom markets we will show the existing lat & lng  
+    function showMap(canvas, lat, lng, markers) {
         if (!isLoaded) {
             // we will call reference to current function so we can call it later
             waiting.push({
@@ -85,8 +86,28 @@ export default function(context, inject) {
         // map object takes 2 parameter 1) where map will be drawn and map options
         // canvas replaces -----> this.$refs.map 
         const map = new window.google.maps.Map(canvas, mapOptions);
-        const position = new window.google.maps.LatLng(lat, lng);
-        const marker = new window.google.maps.Marker({ position });
-        marker.setMap(map);
+        // if there are no markers
+        if (!markers) {
+            const position = new window.google.maps.LatLng(lat, lng);
+            const marker = new window.google.maps.Marker({ position });
+            marker.setMap(map);
+            return
+        }
+
+        // remember to add window. in front of it since this code is not part of the global space
+        // lets loop through our market array using foreach and annonymous function
+        // https://developers.google.com/maps/documentation/javascript/reference/coordinates#LatLngBounds
+        const bounds = new window.google.maps.LatLngBounds()
+        markers.forEach((home) => {
+            const position = new window.google.maps.LatLng(home.lat, home.lng);
+            const marker = new window.google.maps.Marker({ position });
+            marker.setMap(map);
+            // pass the position of the market so the bound can grow
+            marker.setMap(map);
+            bounds.extend(position)
+        });
+
+        // https://developers.google.com/maps/documentation/javascript/reference/map#Map.fitBounds
+        map.fitBounds(bounds)
     }
 }
