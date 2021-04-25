@@ -3,14 +3,14 @@ export default function(context, inject) {
     let isLoaded = false;
      let waiting = [];
 
-    addScript()
+    addScript();
     // $maps will be available throughout your app
     // second argument is what you want to be returned when $maps is returned
     // it will return an object that contains our show method
     inject('maps', {
-        showMap
+        showMap,
+        makeAutoComplete,
     });
-
 
 
     function addScript() {
@@ -34,6 +34,31 @@ export default function(context, inject) {
         })
         // now that our queue is all ran lets clear the queue
         waiting = []
+    }
+
+    function makeAutoComplete(input) {
+        // check if map is loaded or not
+        if (!isLoaded) {
+            waiting.push({ fn: makeAutoComplete, arguments})
+            return
+        }
+        // you need to add window since we in the context of a plugin
+        // https://developers.google.com/maps/documentation/javascript/places-autocomplete#constraining-autocomplete
+        // const autocomplete = new google.maps.places.Autocomplete(input, options);
+        // turn options inside an object to send multiple options
+        // when you type places will suggest cities 
+        const autoComplete = new window.google.maps.places.Autocomplete(input, { types: ['(cities)']});
+        // with Listener we can know when someone selected an option in our dropdown
+        autoComplete.addListener('place_changed', () => {
+            const place = autoComplete.getPlace();
+            // dispatchEvent takes 2 arguments
+            // 1) We going to use CustomEvent() object instead of the Event() object
+            // 2) The second parameter is the object we want to initialize the custom event with
+            // we will send the payload with our event
+            // we will use special property called detail, is not included in the tradional event object
+            // we will add object with detail: place
+            input.dispatchEvent(new CustomEvent('changed', { detail: place}));
+        });
     }
 
     // now that is inside plugins we not longer have access to our home and map object
