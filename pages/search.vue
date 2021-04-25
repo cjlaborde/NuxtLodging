@@ -1,6 +1,7 @@
 <template>
   <div>
-    {{ lat }} / {{ lng }} / {{ label }} <br>
+    Results for {{ label }} <br>
+    <div style="height:800px;width:800px;float:right;" ref="map"></div>
     <div v-if="homes.length > 0">
         <HomeRow v-for="home in homes" :key="home.objectID" :home="home" />
     </div>
@@ -15,6 +16,14 @@ export default {
             title: `Homes around ${this.label}`
         }
     },
+    mounted() {
+        this.updateMap()
+    },
+    methods: {
+        updateMap() {
+            this.$maps.showMap(this.$refs.map, this.lat, this.lng);
+        }
+    },
     // https://nuxtjs.org/docs/2.x/components-glossary/pages-watchquery/
     // watchQuery: ['lat'],
     // destruct query from context'
@@ -24,7 +33,8 @@ export default {
         this.label = to.query.label;
         this.lat = to.query.lat;
         this.lng = to.query.lng;
-        next()
+        this.updateMap();
+        next();
     },
     async asyncData({ query, $dataApi }) {
         const data = await $dataApi.getHomeByLocationId(query.lat, query.lng)
