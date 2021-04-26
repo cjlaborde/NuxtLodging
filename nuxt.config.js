@@ -26,7 +26,9 @@ export default {
     ],
     modules: [['~/modules/test', {
         message: 'my module!!!!!' 
-    }]],
+    }],
+    '~/modules/test2'
+    ],
     env: {
         GMAP: process.env.GMAP,
         AlgoliaAppID: process.env.AlgoliaAppID,
