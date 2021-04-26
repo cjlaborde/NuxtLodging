@@ -82,6 +82,15 @@ export default function(context, inject) {
             // turns off all default controls
             disableDefaultUI: true,
             zoomControl: true,
+            // https://developers.google.com/maps/documentation/javascript/style-reference
+            styles: [{
+                // selects all points of interest for businesses
+                featureType: 'poi.business',
+                // selects the icons of all businesses
+                elementType: 'labels.icon',
+                // let add the style
+                stylers:[{ visibility: 'off'}]
+            }]
         }
         // map object takes 2 parameter 1) where map will be drawn and map options
         // canvas replaces -----> this.$refs.map 
@@ -89,7 +98,10 @@ export default function(context, inject) {
         // if there are no markers
         if (!markers) {
             const position = new window.google.maps.LatLng(lat, lng);
-            const marker = new window.google.maps.Marker({ position });
+            const marker = new window.google.maps.Marker({ 
+                position,
+                clickable: false,
+            });
             marker.setMap(map);
             return
         }
@@ -106,16 +118,16 @@ export default function(context, inject) {
                     // if you just pass a number it will throw error since it gmaps api is  expecting a string
                     text: `$${home.pricePerNight}`,
                     // add css style class
-                    className: 'marker'
+                    className: `marker home-${home.id}`
                 },
                 icon: 'https://maps.gstatic.com/mapfiles/transparent.png',
+                clickable: false
             });
             marker.setMap(map);
             // pass the position of the market so the bound can grow
             marker.setMap(map);
             bounds.extend(position)
         });
-
         // https://developers.google.com/maps/documentation/javascript/reference/map#Map.fitBounds
         map.fitBounds(bounds)
     }
