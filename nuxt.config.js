@@ -25,6 +25,7 @@ export default {
         '~/plugins/dataApi'
     ],
     modules: [],
+    buildModules: ['@nuxtjs/tailwindcss'],
     env: {
         GMAP: process.env.GMAP,
         AlgoliaAppID: process.env.AlgoliaAppID,
