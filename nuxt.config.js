@@ -24,11 +24,7 @@ export default {
         '~/plugins/maps.client',
         '~/plugins/dataApi'
     ],
-    modules: [['~/modules/test', {
-        message: 'my module!!!!!' 
-    }],
-    '~/modules/test2'
-    ],
+    modules: ['~/modules/test'],
     env: {
         GMAP: process.env.GMAP,
         AlgoliaAppID: process.env.AlgoliaAppID,
