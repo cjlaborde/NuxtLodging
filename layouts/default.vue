@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <button @click="test">Test</button>
     <header class="app-header">
       <div class="app-logo">
         <img src="/images/logo.svg"/>
@@ -29,9 +28,6 @@ export default {
     this.$maps.makeAutoComplete(this.$refs.citySearch);
   },
   methods: {
-    test() {
-      this.$store.dispatch('auth/counterUp');
-    },
     changed(event) {
       const place = event.detail;
       if (!place.geometry) return;
