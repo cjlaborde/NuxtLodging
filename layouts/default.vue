@@ -18,10 +18,6 @@
         <img src="/images/user.jpg" class="avatar">
       </div>
     </header>
-    <header style="background-color:#eee;">
-      <nuxt-link to="/">Home</nuxt-link>
-      <input type="text" ref="citySearch" @changed="changed"/>
-    </header>
     <nuxt />
   </div>
 </template>
