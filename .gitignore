@@ -9,3 +9,4 @@ SRS.md
 .env.backup
 npm-debug.log
 yarn-error.log
+.nuxt/dist

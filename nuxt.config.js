@@ -33,16 +33,6 @@ export default {
             limit: 0,
         }
     },
-    publicRuntimeConfig: {
-        test1: "public",
-        test2: "public"
-    },
-    // intended for server side rendering
-    // If used in pre rendered sites, the private information would be visible to everyone
-    // these values accessible now to global plugin called config
-    privateRuntimeConfig: {
-        test2: process.env.TEST,
-    },
     env: {
         GMAP: process.env.GMAP,
         AlgoliaAppID: process.env.AlgoliaAppID,
