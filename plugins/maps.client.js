@@ -1,5 +1,6 @@
 // inject a object or value into your app that is available through vue and vuex
-export default function(context, inject) {
+export default function({ $config }, inject) {
+    const gmapKey = $config.gmap.key;
     let isLoaded = false;
      let waiting = [];
 
@@ -16,7 +17,7 @@ export default function(context, inject) {
     function addScript() {
         // creates our script tag and attach it to our Document
         const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GMAP}&libraries=places&callback=initGoogleMaps`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${gmapKey}&libraries=places&callback=initGoogleMaps`;
         script.async = true;
         window.initGoogleMaps = initGoogleMaps;
         // append element to the head

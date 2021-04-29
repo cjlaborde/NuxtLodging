@@ -1,6 +1,6 @@
-export default function(context, inject) {
-    const appId = process.env.AlgoliaAppID
-    const apiKey = process.env.SearchOnlyApiKey
+export default function({ $config }, inject) {
+    const appId = $config.algolia.appId;
+    const apiKey = $config.algolia.key;
     const headers = {
         'X-Algolia-API-Key': apiKey,
         'X-Algolia-Application-Id': appId,

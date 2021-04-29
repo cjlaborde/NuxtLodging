@@ -1,9 +1,5 @@
 export default {
     components: true,
-    server: {
-        host: '0.0.0.0',
-        port: 5500,
-    },
     head: {
         // %s = placeholder for page title
         titleTemplate: "Mastering Nuxt: %s",
@@ -20,9 +16,10 @@ export default {
     router: {
         prefetchLinks: false,
     },
-    plugins: [
-        '~/plugins/maps.client',
-        '~/plugins/dataApi'
+    plugins:[ 
+        '~/plugins/maps.client', 
+        '~/plugins/dataApi', 
+        '~/plugins/auth.client'
     ],
     modules: [],
     buildModules:['@nuxtjs/tailwindcss'],
@@ -33,12 +30,31 @@ export default {
             limit: 0,
         }
     },
-    env: {
-        GMAP: process.env.GMAP,
-        AlgoliaAppID: process.env.AlgoliaAppID,
-        SearchOnlyApiKey: process.env.SearchOnlyApiKey,
-        GAuthClientID: process.env.GAuthClientID,
-        GAuthClientSecret: process.env.GAuthClientSecret,
-    }
+    publicRuntimeConfig:{
+        auth:{
+            cookieName: 'idToken',
+            clientId: process.env.GAuthClientID,
+        },
+        algolia:{
+            appId: process.env.AlgoliaAppID,
+            key:process.env.SearchOnlyApiKey,
+        },
+        gmap: {
+            key: process.env.GMAP
+        }
+    },
+    // publicRuntineConfig: {
+    //     auth: {
+    //         cookieName: 'idToken',
+    //         clientId: process.env.GAuthClientID
+    //     }
+    // },
+    // env: {
+    //     GMAP: process.env.GMAP,
+    //     AlgoliaAppID: process.env.AlgoliaAppID,
+    //     SearchOnlyApiKey: process.env.SearchOnlyApiKey,
+    //     // GAuthClientID: process.env.GAuthClientID,
+    //     // GAuthClientSecret: process.env.GAuthClientSecret,
+    // }
 
 }

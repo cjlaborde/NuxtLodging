@@ -196,11 +196,11 @@ export async function setContext (app, context) {
       isDev: true,
       isHMR: false,
       app,
-      store: app.store,
+
       payload: context.payload,
       error: context.error,
       base: app.router.options.base,
-      env: {"GMAP":"AIzaSyDFF39EQRIqHQ8oeuFACsKzzJGm377iUws","AlgoliaAppID":"L1S7SR45T5","SearchOnlyApiKey":"a10bf3822d8275b31ff13ffbde14c6f6","GAuthClientID":"791912270807-qer0963h48rdes5nkl2ap1gi9nm7bk40.apps.googleusercontent.com","GAuthClientSecret":"sAyPZAibSYxILFrv1r2dX1Q2"}
+      env: {}
     }
     // Only set once
 
