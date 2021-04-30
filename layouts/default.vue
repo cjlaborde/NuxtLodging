@@ -13,9 +13,12 @@
         </button>
       </div>
       <div class="app-user-menu">
-        <img src="/images/icons/house.svg" />
-        <div class="name">Host</div>
-        <div id="googleButton" class="ml-8"></div>
+        <template v-if="isLoggedIn">
+          <img src="/images/icons/house.svg" />
+          <div class="name">Host</div>
+          <img :src="user.profileUrl" class="avatar">
+        </template>
+        <div v-show="!isLoggedIn" id="googleButton" class="ml-8"></div>
       </div>
     </header>
     <nuxt />
@@ -26,6 +29,16 @@
 export default {
   mounted() {
     this.$maps.makeAutoComplete(this.$refs.citySearch);
+  },
+  computed: {
+    // expose user object
+    user() {
+      return this.$store.state.auth.user
+    },
+    // expose if user logged in
+    isLoggedIn() {
+      return this.$store.state.auth.isLoggedIn
+    }
   },
   methods: {
     changed(event) {
