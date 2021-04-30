@@ -1,6 +1,11 @@
-export default ({ $config }) => {
-    window.initAuth = init
-    addScript()  
+import Cookie from 'js-cookie';
+
+export default ({ $config }, inject) => {
+    window.initAuth = init;
+    addScript();
+    inject('auth', {
+        signOut,
+    });  
 
     function addScript(){
          // creates our script tag and attach it to our Document
@@ -19,6 +24,8 @@ export default ({ $config }) => {
             const auth2 = await window.gapi.auth2.init({
                 client_id: $config.auth.clientId,
             })
+
+            auth2.currentUser.listen(parseUser);
           });
         // https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams
         window.gapi.signin2.render('googleButton', {
@@ -27,8 +34,26 @@ export default ({ $config }) => {
     }
 
     function parseUser(user) {
-        const profile = user.getBasicProfile()
-        console.log('Name:' + profile.getName())
-        console.log('Image Url:' + profile.getImageUrl())
+        const profile = user.getBasicProfile();
+        console.log('Name:' + profile.getName());
+        console.log('Image Url:' + profile.getImageUrl());
+        // console.log('Token:' + user.getAuthResponse().id_token);
+
+        if (!user.isSignedIn()) {
+            Cookie.remove($config.auth.cookieName);
+            return 
+        }
+
+        // the set Method takes a Cookie value from our auth config
+        // 1/12 = 1 hour
+        // Lax tells browser to send a cookie on the server on initials hits and
+        // As well as subsequent requests
+        const idToken = user.getAuthResponse().id_token;
+        Cookie.set($config.auth.cookieName, idToken, { expires: 1/24, sameSite: 'Lax' });
+    }
+
+    function signOut() {
+        const auth2 = window.gapi.auth2.getAuthInstance();
+        auth2.signOut()
     }
 }
