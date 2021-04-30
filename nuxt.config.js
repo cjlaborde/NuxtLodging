@@ -21,7 +21,7 @@ export default {
         '~/plugins/dataApi', 
         '~/plugins/auth.client'
     ],
-    modules: [],
+    modules: ['~/modules/auth'],
     buildModules:['@nuxtjs/tailwindcss'],
     css: ['~/assets/sass/app.scss'],
     build: {
@@ -50,4 +50,5 @@ export default {
     //     // GAuthClientID: process.env.GAuthClientID,
     //     // GAuthClientSecret: process.env.GAuthClientSecret,
     // }
+
 }
