@@ -43,13 +43,6 @@ export default {
             key: process.env.GMAP
         }
     },
-    serverMiddleware:['myServerMiddleware'],
-    // publicRuntineConfig: {
-    //     auth: {
-    //         cookieName: 'idToken',
-    //         clientId: process.env.GAuthClientID
-    //     }
-    // },
     // env: {
     //     GMAP: process.env.GMAP,
     //     AlgoliaAppID: process.env.AlgoliaAppID,
@@ -57,5 +50,4 @@ export default {
     //     // GAuthClientID: process.env.GAuthClientID,
     //     // GAuthClientSecret: process.env.GAuthClientSecret,
     // }
-
 }
