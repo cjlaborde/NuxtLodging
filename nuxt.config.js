@@ -43,6 +43,7 @@ export default {
             key: process.env.GMAP
         }
     },
+    serverMiddleware:['myServerMiddleware'],
     // publicRuntineConfig: {
     //     auth: {
     //         cookieName: 'idToken',
